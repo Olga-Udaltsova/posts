@@ -22,24 +22,12 @@ const INITIAL_POSTS = [
     image:
       "https://i.pinimg.com/originals/e0/18/0f/e0180f82c6c5273050a86a282a597872.jpg",
   },
-  {
-    id: 4,
-    title: "Post 4",
-    image:
-      "https://i.pinimg.com/originals/e0/18/0f/e0180f82c6c5273050a86a282a597872.jpg",
-  },
-  {
-    id: 5,
-    title: "Post 5",
-    image:
-      "https://i.pinimg.com/originals/e0/18/0f/e0180f82c6c5273050a86a282a597872.jpg",
-  }
 ];
 
-export const PostsPage = () => (
+export const MainPage = () => (
   <>
     <Container>
-      <Typo>Публикации</Typo>
+      <Typo>Свежие публикации</Typo>
       <Posts posts={INITIAL_POSTS} />
     </Container>
   </>
