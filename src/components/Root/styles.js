@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 export const Menu = styled.div`
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
   display: flex;
   gap: 15px;
