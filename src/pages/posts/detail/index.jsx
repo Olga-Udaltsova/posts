@@ -1,29 +1,48 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router";
-import { Typo } from "../../../components/Posts/components/Typo";
+import { Typo } from "../../../components/Typo";
 import { Container } from "../../../components/Container";
 import * as SC from "./styles";
 import { Link } from "../../../components/Link";
 import { useDispatch, useSelector } from "react-redux";
-import { getPost } from "../../../redux/slices/postsSlice";
+import { getPostById, showPost } from "../../../redux/slices/postsSlice";
 
 export const DetailPostPage = () => {
   const { id } = useParams();
+  const { list } = useSelector((state) => state.posts.posts);
   const postForView = useSelector((state) => state.posts.postForView);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPost(Number(id)));
-  }, [id]);
+    const intId = Number(id);
+    const findedPosts = list
+      ? list.find((item) => item.id === intId)
+      : undefined;
+    if (findedPosts) {
+      dispatch(showPost(findedPosts));
+    } else {
+      dispatch(getPostById(intId));
+    }
+  }, [id, list, dispatch]);
 
-  if (!postForView) {
+  if (postForView.loading) {
+    return <Container>Loading...</Container>;
+  }
+
+  if (!postForView.post || !postForView.post.hasOwnProperty("id")) {
     return <>Пост не найден</>;
   }
+  const { post } = postForView;
+
+  const image =
+    post.image ||
+    "https://i.pinimg.com/originals/e0/18/0f/e0180f82c6c5273050a86a282a597872.jpg";
+
   return (
     <Container>
-      <Typo>{postForView.title}</Typo>
-      <SC.Image src={postForView.image} alt={postForView.title} />
-      <SC.Text>{postForView.text}</SC.Text>
+      <Typo>{post.title}</Typo>
+      <SC.Image src={image} alt={post.title} />
+      <SC.Text>{post.body}</SC.Text>
       <div style={{ clear: "both" }} />
       <SC.LinkWrapper>
         <Link to="/posts">Обратно к публикациям</Link>

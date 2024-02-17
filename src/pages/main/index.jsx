@@ -1,32 +1,34 @@
 import React, { useEffect } from "react";
 import { Posts } from "../../components/Posts";
 import { Container } from "../../components/Container";
-import { Typo } from "../../components/Posts/components/Typo";
+import { Typo } from "../../components/Typo";
 import { useDispatch, useSelector } from "react-redux";
 import { getFreshPosts } from "../../redux/slices/postsSlice";
 
 export const MainPage = () => {
-  const postForView = useSelector((state) => state.posts.postForView);
-  const freshPosts = useSelector((state) => state.posts.freshPosts);
+  const { post } = useSelector((state) => state.posts.postForView);
+  const { posts, loading } = useSelector((state) => state.posts.freshPosts);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getFreshPosts());
   }, []);
+
   return (
     <>
       <Container>
-        {freshPosts && (
+        {loading && <>Loading...</>}
+        {posts && (
           <>
             <Typo>Свежие публикации</Typo>
-            <Posts posts={freshPosts} />
+            <Posts posts={posts} />
           </>
         )}
 
-        {postForView && (
+        {post && (
           <>
             <Typo>Последний просмотренный пост</Typo>
-            <Posts posts={[postForView]} />
+            <Posts posts={[post]} />
           </>
         )}
       </Container>
