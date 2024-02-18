@@ -21,6 +21,7 @@ export const Filter = styled.div`
   gap: 10px;
   input {
     border: none;
+    border-bottom: 1px solid #000;
     outline: none;
     &:hover,
     &:focus {

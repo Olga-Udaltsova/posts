@@ -12,7 +12,7 @@ export const Sort = ({ onSort, handleInputChange }) => {
       </SC.Select>
 
       <SC.Filter>
-        <p>Введите заголовок для поиска</p>
+        <p>Введите заголовок для поиска:</p>
         <input onChange={handleInputChange} />
       </SC.Filter>
     </SC.Sort>

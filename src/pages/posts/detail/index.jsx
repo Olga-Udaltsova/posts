@@ -13,7 +13,7 @@ import {
   showPost,
   deletePost,
 } from "../../../redux/slices/postsSlice";
-import { Loader } from "../../../components/ui/Loading/styles";
+import { Loader } from "../../../components/ui/Loading";
 
 export const DetailPostPage = () => {
   const { id } = useParams();
