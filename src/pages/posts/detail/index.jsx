@@ -4,6 +4,9 @@ import { Typo } from "../../../components/ui/Typo";
 import { Container } from "../../../components/ui/Container";
 import * as SC from "./styles";
 import { Link } from "../../../components/ui/Link";
+import { BlackButton } from "../../../components/ui/BlackButton";
+import { PinkButton } from "../../../components/ui/PinkButton";
+import { Modal } from "../../../components/ui/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getPostById,
@@ -16,11 +19,11 @@ export const DetailPostPage = () => {
   const dispatch = useDispatch();
   const { list } = useSelector((state) => state.posts.posts);
   const postForView = useSelector((state) => state.posts.postForView);
-  const {user} = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth);
   const [postForDelete, setPostForDelete] = useState(null);
   const navigate = useNavigate();
 
-  const showEditAndDeleteBtn = list && user
+  const showEditAndDeleteBtn = list && user;
 
   const onDeletePost = () => {
     dispatch(deletePost(postForDelete));
@@ -57,16 +60,18 @@ export const DetailPostPage = () => {
     <Container>
       {postForDelete && (
         <SC.ModalWrapper>
-          <SC.Modal>
+          <Modal>
             <SC.ModalText>
               Вы точно уверены, что хотите удалить публикацию с ID -{" "}
               {postForDelete.id}?
             </SC.ModalText>
             <SC.ModalContent>
-              <SC.DeleteButton onClick={onDeletePost}>Да</SC.DeleteButton>
-              <button onClick={() => setPostForDelete(null)}>Нет</button>
+              <PinkButton onClick={onDeletePost}>Да</PinkButton>
+              <BlackButton onClick={() => setPostForDelete(null)}>
+                Нет
+              </BlackButton>
             </SC.ModalContent>
-          </SC.Modal>
+          </Modal>
         </SC.ModalWrapper>
       )}
       <Typo>{post.title}</Typo>
@@ -75,11 +80,13 @@ export const DetailPostPage = () => {
       <div style={{ clear: "both" }} />
       <SC.LinkWrapper>
         <Link to="/posts">Обратно к публикациям</Link>
-        {showEditAndDeleteBtn && <Link to={`/posts/${post.id}/edit`}>Редактировать</Link>}
         {showEditAndDeleteBtn && (
-          <SC.DeleteButton onClick={() => setPostForDelete(post)}>
+          <Link to={`/posts/${post.id}/edit`}>Редактировать</Link>
+        )}
+        {showEditAndDeleteBtn && (
+          <BlackButton onClick={() => setPostForDelete(post)}>
             Удалить
-          </SC.DeleteButton>
+          </BlackButton>
         )}
       </SC.LinkWrapper>
     </Container>
