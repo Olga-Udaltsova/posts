@@ -4,7 +4,7 @@ import { Container } from "../../components/ui/Container";
 import { Typo } from "../../components/ui/Typo";
 import { useDispatch, useSelector } from "react-redux";
 import { getFreshPosts } from "../../redux/slices/postsSlice";
-import { Loader } from "../../components/ui/Loading/styles";
+import { Loader } from "../../components/ui/Loading";
 
 export const MainPage = () => {
   const { post } = useSelector((state) => state.posts.postForView);
@@ -18,7 +18,7 @@ export const MainPage = () => {
   return (
     <>
       <Container>
-        {loading && <Loader/>}
+        {loading && <Loader />}
         {list && (
           <>
             <Typo>Свежие публикации</Typo>
