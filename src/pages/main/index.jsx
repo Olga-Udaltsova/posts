@@ -8,7 +8,7 @@ import { Loader } from "../../components/ui/Loading/styles";
 
 export const MainPage = () => {
   const { post } = useSelector((state) => state.posts.postForView);
-  const { posts, loading } = useSelector((state) => state.posts.freshPosts);
+  const { list, loading } = useSelector((state) => state.posts.posts);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,10 +19,10 @@ export const MainPage = () => {
     <>
       <Container>
         {loading && <Loader/>}
-        {posts && (
+        {list && (
           <>
             <Typo>Свежие публикации</Typo>
-            <Posts posts={posts} />
+            <Posts posts={list} />
           </>
         )}
 
