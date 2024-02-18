@@ -5,6 +5,7 @@ import { Form } from "../../components/ui/Form";
 import { Field } from "../../components/ui/Field";
 import { Input } from "../../components/ui/Input";
 import { useNavigate } from "react-router";
+import { PinkButton } from "../../components/ui/PinkButton";
 
 export const RegistrationPage = () => {
   const [formValues, setFormValues] = useState({
@@ -91,9 +92,9 @@ export const RegistrationPage = () => {
             autoComplete="off"
           />
         </Field>
-        <button type="submit" disabled={disabled}>
+        <PinkButton type="submit" disabled={disabled}>
           Регистрация
-        </button>
+        </PinkButton>
       </Form>
     </Container>
   );

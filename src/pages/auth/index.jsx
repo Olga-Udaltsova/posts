@@ -4,6 +4,7 @@ import { Container } from "../../components/ui/Container";
 import { Form } from "../../components/ui/Form";
 import { Field } from "../../components/ui/Field";
 import { Input } from "../../components/ui/Input";
+import { PinkButton } from "../../components/ui/PinkButton";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/slices/authSlice";
@@ -22,8 +23,7 @@ export const AuthPage = () => {
     try {
       const users = JSON.parse(localStorage.getItem("users"));
       if (!users) {
-        alert("Данный пользователь не найден в системе");
-        return;
+        return alert("Данный пользователь не найден в системе");
       }
 
       const currentUser = users.find(
@@ -32,8 +32,7 @@ export const AuthPage = () => {
           user.password === formValues.password
       );
       if (!currentUser) {
-        alert("Данный пользователь не найден в системе");
-        return;
+        return alert("Данный пользователь не найден в системе");
       }
 
       dispatch(login(currentUser));
@@ -68,9 +67,9 @@ export const AuthPage = () => {
             autoComplete="off"
           />
         </Field>
-        <button type="submit" disabled={disabled}>
+        <PinkButton type="submit" disabled={disabled}>
           Авторизация
-        </button>
+        </PinkButton>
       </Form>
     </Container>
   );
