@@ -1,3 +1,9 @@
-import React from 'react';
+import React from "react";
+import { Typo } from "../../components/ui/Typo";
+import { Container } from "../../components/ui/Container";
 
-export const AuthPage = () => <div>Это страница авторизации</div>
+export const AuthPage = () => (
+  <Container>
+    <Typo>Страница авторизации</Typo>
+  </Container>
+);

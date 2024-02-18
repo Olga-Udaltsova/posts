@@ -1,6 +1,6 @@
 import React from "react";
 import * as SC from "./styles";
-import { Link } from "../../../Link";
+import { Link } from "../../../ui/Link";
 
 export const Post = ({ post }) => {
   const image =
