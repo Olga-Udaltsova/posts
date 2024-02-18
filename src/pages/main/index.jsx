@@ -18,7 +18,7 @@ export const MainPage = () => {
   return (
     <>
       <Container>
-        {loading && <Loader/>}
+        {loading && <Loader />}
         {list && (
           <>
             <Typo>Свежие публикации</Typo>
