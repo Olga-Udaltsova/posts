@@ -13,6 +13,7 @@ import {
   showPost,
   deletePost,
 } from "../../../redux/slices/postsSlice";
+import { Loader } from "../../../components/ui/Loading/styles";
 
 export const DetailPostPage = () => {
   const { id } = useParams();
@@ -44,7 +45,11 @@ export const DetailPostPage = () => {
   }, [id, list, dispatch]);
 
   if (postForView.loading) {
-    return <Container>Loading...</Container>;
+    return (
+      <Container>
+        <Loader />
+      </Container>
+    );
   }
 
   if (!postForView.post || !postForView.post.hasOwnProperty("id")) {
