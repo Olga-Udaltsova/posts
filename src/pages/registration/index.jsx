@@ -34,7 +34,7 @@ export const RegistrationPage = () => {
         return;
       }
       if (users.find((user) => user.email === formValues.email)) {
-        alert("Пользватель с таким email еще усуществует");
+        alert("Пользователь с таким email уже существует");
         return;
       }
 
@@ -43,7 +43,6 @@ export const RegistrationPage = () => {
       localStorage.setItem("users", JSON.stringify(users));
       alert("Вы успешно зарегистрировались!");
       navigate("/auth");
-
     } catch (e) {
       console.log(e);
     }

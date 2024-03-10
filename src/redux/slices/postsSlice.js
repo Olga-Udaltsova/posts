@@ -23,8 +23,8 @@ export const getPostById = createAsyncThunk(
   }
 );
 
-export const getPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  return await postsAPI.fetchPosts();
+export const getPosts = createAsyncThunk("posts/fetchPosts", async (page) => {
+  return await postsAPI.fetchPosts(page);
 });
 
 export const getFreshPosts = createAsyncThunk(
@@ -70,33 +70,6 @@ export const postsSlice = createSlice({
         loading: false,
       };
     },
-    sortPostsByTitleASC: (state) => {
-      state.posts.list = state.posts.list.sort((a, b) =>
-        a.title > b.title ? 1 : -1
-      );
-    },
-    sortPostsByTitleDESC: (state) => {
-      state.posts.list = state.posts.list.sort((a, b) =>
-        a.title < b.title ? 1 : -1
-      );
-    },
-    sortPostsByIdASC: (state) => {
-      state.posts.list = state.posts.list.sort((a, b) =>
-        a.id > b.id ? 1 : -1
-      );
-    },
-    sortPostsByIdDESC: (state) => {
-      state.posts.list = state.posts.list.sort((a, b) =>
-        a.id < b.id ? 1 : -1
-      );
-    },
-    filterPosts: (state, action) => {
-      state.posts.list = action.payload
-        ? state.posts.list.filter((post) =>
-            post.title.toLowerCase().includes(action.payload.toLowerCase())
-          )
-        : !state.posts.list;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(getPostById.pending, (state, action) => {
@@ -138,16 +111,6 @@ export const postsSlice = createSlice({
   },
 });
 
-export const {
-  editPost,
-  addPost,
-  showPost,
-  deletePost,
-  sortPostsByTitleASC,
-  sortPostsByTitleDESC,
-  sortPostsByIdASC,
-  sortPostsByIdDESC,
-  filterPosts,
-} = postsSlice.actions;
+export const { editPost, addPost, showPost, deletePost } = postsSlice.actions;
 
 export default postsSlice.reducer;
