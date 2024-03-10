@@ -1,19 +1,20 @@
 import React from "react";
 import * as SC from "./styles";
 
-export const Sort = ({ onSort, handleInputChange }) => {
+export const Sort = ({ changeSort, changeTextSearch }) => {
   return (
     <SC.Sort>
-      <SC.Select onChange={(event) => onSort(event)}>
-        <option value="TITLE_ASC">Сортировка от A до Z</option>
-        <option value="TITLE_DESC">Сортировка от Z до A</option>
-        <option value="ID_ASC">Сортировка от 1 до 100</option>
-        <option value="ID_DESC">Сортировка от 100 до 1</option>
+      <SC.Select onChange={(event) => changeSort(event.target.value)}>
+        <option value="asc">Сортировка по возрастанию</option>
+        <option value="desc">Сортировка по убыванию</option>
       </SC.Select>
 
       <SC.Filter>
         <p>Введите заголовок для поиска:</p>
-        <input onChange={handleInputChange} />
+        <input
+          type="text"
+          onChange={(event) => changeTextSearch(event.target.value)}
+        />
       </SC.Filter>
     </SC.Sort>
   );
