@@ -10,7 +10,7 @@ export const Sort = ({ changeSort, changeTextSearch }) => {
       </SC.Select>
 
       <SC.Filter>
-        <p>Введите заголовок для поиска:</p>
+        <p>Введите текст для поиска:</p>
         <input
           type="text"
           onChange={(event) => changeTextSearch(event.target.value)}

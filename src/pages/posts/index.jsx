@@ -60,12 +60,7 @@ export const PostsPage = () => {
       <Typo>Публикации</Typo>
       <Sort changeSort={changeSort} changeTextSearch={changeTextSearch} />
       <Posts posts={list} />
-      {textSearch ? null : (
-        <Pages
-          changeCurrentPage={changeCurrentPage}
-          currentPage={currentPage}
-        />
-      )}
+      <Pages changeCurrentPage={changeCurrentPage} currentPage={currentPage} />
     </Container>
   );
 };

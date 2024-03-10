@@ -51,7 +51,7 @@ export const postsAPI = {
   fetchFilteredPosts(text) {
     try {
       return fetch(
-        `https://jsonplaceholder.typicode.com/posts?q=${text}`
+        `https://jsonplaceholder.typicode.com/posts?_limit=3&q=${text}`
       )
         .then((response) => response.json())
         .then((posts) => posts);
