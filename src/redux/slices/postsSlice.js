@@ -34,6 +34,20 @@ export const getFreshPosts = createAsyncThunk(
   }
 );
 
+export const getSortedPosts = createAsyncThunk(
+  "posts/fetchSortedPosts",
+  async (order) => {
+    return await postsAPI.fetchSortedPosts(order);
+  }
+);
+
+export const getFilteredPosts = createAsyncThunk(
+  "posts/fetchFilteredPosts",
+  async (text) => {
+    return await postsAPI.fetchFilteredPosts(text);
+  }
+);
+
 export const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -105,6 +119,18 @@ export const postsSlice = createSlice({
     builder.addCase(getFreshPosts.fulfilled, (state, action) => {
       state.freshPosts = {
         posts: action.payload,
+        loading: false,
+      };
+    });
+    builder.addCase(getSortedPosts.fulfilled, (state, action) => {
+      state.posts = {
+        list: action.payload,
+        loading: false,
+      };
+    });
+    builder.addCase(getFilteredPosts.fulfilled, (state, action) => {
+      state.posts = {
+        list: action.payload,
         loading: false,
       };
     });

@@ -3,29 +3,45 @@ import { Posts } from "../../components/Posts";
 import { Container } from "../../components/ui/Container";
 import { Typo } from "../../components/ui/Typo";
 import { useDispatch, useSelector } from "react-redux";
-import { getPosts } from "../../redux/slices/postsSlice";
+import {
+  getFilteredPosts,
+  getPosts,
+  getSortedPosts,
+} from "../../redux/slices/postsSlice";
 import { Loader } from "../../components/ui/Loading";
 import { Sort } from "../../components/Sort";
-import * as SC from "./styles.js";
-
-const PAGES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+import { Pages } from "../../components/Pagination";
 
 export const PostsPage = () => {
   const { list, loading } = useSelector((state) => state.posts.posts);
   const dispatch = useDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [order, setOrder] = useState("asc");
+  const [textSearch, setTextSearch] = useState("");
 
   const changeCurrentPage = (page) => {
     setCurrentPage(page);
     dispatch(getPosts(currentPage));
   };
 
+  const changeSort = (value) => {
+    setOrder(value);
+    dispatch(getSortedPosts(order));
+  };
+
+  const changeTextSearch = (text) => {
+    setTextSearch(text);
+    dispatch(getFilteredPosts(textSearch));
+  };
+
   useEffect(() => {
     if (!list) {
       dispatch(getPosts(currentPage));
+      dispatch(getSortedPosts(order));
+      dispatch(getFilteredPosts(textSearch));
     }
-  }, [list, dispatch, currentPage]);
+  }, [list, dispatch, currentPage, order, textSearch]);
 
   if (!list && loading) {
     return (
@@ -42,19 +58,14 @@ export const PostsPage = () => {
   return (
     <Container>
       <Typo>Публикации</Typo>
-      <Sort />
+      <Sort changeSort={changeSort} changeTextSearch={changeTextSearch} />
       <Posts posts={list} />
-      <SC.Pages>
-        {PAGES.map((page) => (
-          <SC.Button
-            key={page}
-            onClick={() => changeCurrentPage(page)}
-            className={currentPage === page ? "active" : "noActive"}
-          >
-            {page}
-          </SC.Button>
-        ))}
-      </SC.Pages>
+      {textSearch ? null : (
+        <Pages
+          changeCurrentPage={changeCurrentPage}
+          currentPage={currentPage}
+        />
+      )}
     </Container>
   );
 };
