@@ -3,11 +3,7 @@ import { Posts } from "../../components/Posts";
 import { Container } from "../../components/ui/Container";
 import { Typo } from "../../components/ui/Typo";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getFilteredPosts,
-  getPosts,
-  getSortedPosts,
-} from "../../redux/slices/postsSlice";
+import { getPosts } from "../../redux/slices/postsSlice";
 import { Loader } from "../../components/ui/Loading";
 import { Sort } from "../../components/Sort";
 import { Pages } from "../../components/Pagination";
@@ -22,24 +18,18 @@ export const PostsPage = () => {
 
   const changeCurrentPage = (page) => {
     setCurrentPage(page);
-    dispatch(getPosts(currentPage));
   };
 
   const changeSort = (value) => {
     setOrder(value);
-    dispatch(getSortedPosts(order));
   };
 
   const changeTextSearch = (text) => {
     setTextSearch(text);
-    dispatch(getFilteredPosts(textSearch));
   };
-
   useEffect(() => {
     if (!list) {
-      dispatch(getPosts(currentPage));
-      dispatch(getSortedPosts(order));
-      dispatch(getFilteredPosts(textSearch));
+      dispatch(getPosts(currentPage, order, textSearch));
     }
   }, [list, dispatch, currentPage, order, textSearch]);
 
@@ -49,10 +39,6 @@ export const PostsPage = () => {
         <Loader />
       </Container>
     );
-  }
-
-  if (!list) {
-    return <>404</>;
   }
 
   return (

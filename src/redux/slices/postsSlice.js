@@ -23,28 +23,17 @@ export const getPostById = createAsyncThunk(
   }
 );
 
-export const getPosts = createAsyncThunk("posts/fetchPosts", async (page) => {
-  return await postsAPI.fetchPosts(page);
-});
+export const getPosts = createAsyncThunk(
+  "posts/fetchPosts",
+  async (page, order, text) => {
+    return await postsAPI.fetchPosts(page, order, text);
+  }
+);
 
 export const getFreshPosts = createAsyncThunk(
   "posts/fetchFreshPosts",
   async (limit) => {
     return await postsAPI.fetchFreshPosts(limit);
-  }
-);
-
-export const getSortedPosts = createAsyncThunk(
-  "posts/fetchSortedPosts",
-  async (order) => {
-    return await postsAPI.fetchSortedPosts(order);
-  }
-);
-
-export const getFilteredPosts = createAsyncThunk(
-  "posts/fetchFilteredPosts",
-  async (text) => {
-    return await postsAPI.fetchFilteredPosts(text);
   }
 );
 
@@ -119,18 +108,6 @@ export const postsSlice = createSlice({
     builder.addCase(getFreshPosts.fulfilled, (state, action) => {
       state.freshPosts = {
         posts: action.payload,
-        loading: false,
-      };
-    });
-    builder.addCase(getSortedPosts.fulfilled, (state, action) => {
-      state.posts = {
-        list: action.payload,
-        loading: false,
-      };
-    });
-    builder.addCase(getFilteredPosts.fulfilled, (state, action) => {
-      state.posts = {
-        list: action.payload,
         loading: false,
       };
     });
