@@ -18,15 +18,19 @@ export const PostsPage = () => {
 
   const changeCurrentPage = (page) => {
     setCurrentPage(page);
+    dispatch(getPosts(currentPage, order, textSearch));
   };
 
   const changeSort = (value) => {
     setOrder(value);
+    dispatch(getPosts(currentPage, order, textSearch));
   };
 
   const changeTextSearch = (text) => {
     setTextSearch(text);
+    dispatch(getPosts(currentPage, order, textSearch));
   };
+
   useEffect(() => {
     if (!list) {
       dispatch(getPosts(currentPage, order, textSearch));

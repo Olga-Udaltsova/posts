@@ -1,8 +1,15 @@
 export const postsAPI = {
   fetchPosts(page, order, text) {
+    const params = new URLSearchParams();
+    params.append("_page", page);
+    params.append("_order", "asc");
+    params.append("q", text === undefined ? "" : text);
     try {
       return fetch(
-        `https://jsonplaceholder.typicode.com/posts?_page=${page}&_sort=id&_order=${order}&q=${text}`
+        `https://jsonplaceholder.typicode.com/posts?_sort=id&` + params,
+        console.log(
+          `https://jsonplaceholder.typicode.com/posts?_sort=id&` + params
+        )
       )
         .then((response) => response.json())
         .then((posts) => posts);
