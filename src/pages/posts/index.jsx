@@ -7,35 +7,37 @@ import { getPosts } from "../../redux/slices/postsSlice";
 import { Loader } from "../../components/ui/Loading";
 import { Sort } from "../../components/Sort";
 import { Pages } from "../../components/Pagination";
+import * as SC from "./styles";
 
 export const PostsPage = () => {
   const { list, loading } = useSelector((state) => state.posts.posts);
   const dispatch = useDispatch();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [order, setOrder] = useState("asc");
-  const [textSearch, setTextSearch] = useState("");
+  const [params, setParams] = useState({
+    page: 1,
+    order: "asc",
+    search: "",
+  });
 
   const changeCurrentPage = (page) => {
-    setCurrentPage(page);
-    dispatch(getPosts(currentPage, order, textSearch));
+    setParams({ page });
+    dispatch(getPosts(params));
   };
 
   const changeSort = (value) => {
-    setOrder(value);
-    dispatch(getPosts(currentPage, order, textSearch));
+    setParams({ order: value });
+    dispatch(getPosts(params));
   };
 
-  const changeTextSearch = (text) => {
-    setTextSearch(text);
-    dispatch(getPosts(currentPage, order, textSearch));
+  const onSearch = (value) => {
+    setParams({ search: value });
   };
 
   useEffect(() => {
     if (!list) {
-      dispatch(getPosts(currentPage, order, textSearch));
+      dispatch(getPosts(params));
     }
-  }, [list, dispatch, currentPage, order, textSearch]);
+  }, [list, dispatch, params]);
 
   if (!list && loading) {
     return (
@@ -48,9 +50,22 @@ export const PostsPage = () => {
   return (
     <Container>
       <Typo>Публикации</Typo>
-      <Sort changeSort={changeSort} changeTextSearch={changeTextSearch} />
+      <Sort
+        order={params.order}
+        changeSort={changeSort}
+        search={params.search}
+        onSearch={onSearch}
+        params={params}
+      />
       <Posts posts={list} />
-      <Pages changeCurrentPage={changeCurrentPage} currentPage={currentPage} />
+      {list?.length < 10 ? (
+        <SC.Button>1</SC.Button>
+      ) : (
+        <Pages
+          changeCurrentPage={changeCurrentPage}
+          currentPage={params.page}
+        />
+      )}
     </Container>
   );
 };

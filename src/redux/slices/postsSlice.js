@@ -25,8 +25,8 @@ export const getPostById = createAsyncThunk(
 
 export const getPosts = createAsyncThunk(
   "posts/fetchPosts",
-  async (page, order, text) => {
-    return await postsAPI.fetchPosts(page, order, text);
+  async (par) => {
+    return await postsAPI.fetchPosts(par);
   }
 );
 

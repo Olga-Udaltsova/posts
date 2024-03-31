@@ -28,4 +28,14 @@ export const Filter = styled.div`
       outline: 1px solid #e08d8d;
     }
   }
+  button {
+    width: 100px;
+    margin: 15px;
+    background: #fff;
+    border: 1px solid #000;
+    cursor: pointer;
+    &:hover {
+      background: #e08d8d;
+    }
+  }
 `;
