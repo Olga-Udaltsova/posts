@@ -3,7 +3,7 @@ export const postsAPI = {
     const params = new URLSearchParams();
     params.append("_page", args.page);
     params.append("_order", args.order);
-    params.append("q", args.search === undefined ? "" : args.search);
+    params.append("q", args.search);
     try {
       return fetch(
         `https://jsonplaceholder.typicode.com/posts?_sort=id&` + params
