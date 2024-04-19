@@ -4,7 +4,7 @@ import { Container } from "../../components/ui/Container";
 import { Form } from "../../components/ui/Form";
 import { Field } from "../../components/ui/Field";
 import { Input } from "../../components/ui/Input";
-import { PinkButton } from "../../components/ui/PinkButton";
+import { Button } from "../../components/ui/Button";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/slices/authSlice";
@@ -67,9 +67,9 @@ export const AuthPage = () => {
             autoComplete="off"
           />
         </Field>
-        <PinkButton type="submit" disabled={disabled}>
+        <Button type="submit" disabled={disabled}>
           Авторизация
-        </PinkButton>
+        </Button>
       </Form>
     </Container>
   );

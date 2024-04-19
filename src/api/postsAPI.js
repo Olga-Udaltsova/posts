@@ -1,7 +1,6 @@
 export const postsAPI = {
-  fetchPosts(args) {
+  fetchPostsByParameters(args) {
     const params = new URLSearchParams();
-    params.append("_page", args.page);
     params.append("_order", args.order);
     params.append("q", args.search);
     try {
@@ -21,7 +20,7 @@ export const postsAPI = {
         `https://jsonplaceholder.typicode.com/posts?_limit=${limit}&_sort=id&_order=desc`
       )
         .then((response) => response.json())
-        .then((posts) => posts);
+        .then((freshPost) => freshPost);
     } catch (ex) {
       console.log(ex);
     }

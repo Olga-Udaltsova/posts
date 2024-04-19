@@ -7,3 +7,8 @@ export const Posts = styled.div`
   gap: 15px;
 `;
 
+export const NoPosts = styled.div`
+  margin: 50px 0;
+  text-align: center;
+  font-size: 25px;
+`;

@@ -3,39 +3,44 @@ import { Posts } from "../../components/Posts";
 import { Container } from "../../components/ui/Container";
 import { Typo } from "../../components/ui/Typo";
 import { useDispatch, useSelector } from "react-redux";
-import { getPosts } from "../../redux/slices/postsSlice";
+import { getPostsByParameters } from "../../redux/slices/postsSlice";
 import { Loader } from "../../components/ui/Loading";
 import { Sort } from "../../components/Sort";
 import { Pages } from "../../components/Pagination";
-import * as SC from "./styles";
+import useDebounce from "../../hooks/useDebounce";
 
 export const PostsPage = () => {
-  const { list, loading } = useSelector((state) => state.posts.posts);
-  const dispatch = useDispatch();
-
   const [params, setParams] = useState({
-    page: 1,
     order: "asc",
     search: "",
   });
+  const [page, setPage] = useState(1);
+  const { list, pages, loading } = useSelector((state) => state.posts.posts);
+  const dispatch = useDispatch();
 
+  const currentPage = list?.length <= 100 ? 1 : page;
+  const firstIndex = (currentPage - 1) * 10;
+  const lastIndex = firstIndex + 10;
+  const postsOnPage = list?.slice(firstIndex, lastIndex);
+
+  const debouncedSearchTerm = useDebounce(params.search, 1000);
   const changeCurrentPage = (page) => {
-    setParams({ page });
-    dispatch(getPosts(params));
+    setPage(page);
   };
-
   const changeSort = (value) => {
-    setParams({ order: value });
-    dispatch(getPosts(params));
-  };
-
-  const onSearch = (value) => {
-    setParams({ search: value });
+    dispatch(getPostsByParameters({ ...params, order: value }));
+    setParams({ ...params, order: value });
   };
 
   useEffect(() => {
+    if (debouncedSearchTerm) {
+      dispatch(getPostsByParameters(params));
+    }
+  }, [debouncedSearchTerm]);
+
+  useEffect(() => {
     if (!list) {
-      dispatch(getPosts(params));
+      dispatch(getPostsByParameters(params));
     }
   }, [list, dispatch, params]);
 
@@ -50,22 +55,13 @@ export const PostsPage = () => {
   return (
     <Container>
       <Typo>Публикации</Typo>
-      <Sort
-        order={params.order}
-        changeSort={changeSort}
-        search={params.search}
-        onSearch={onSearch}
-        params={params}
+      <Sort changeSort={changeSort} params={params} setParams={setParams} />
+      <Posts posts={postsOnPage} />
+      <Pages
+        numberOfPages={pages}
+        changeCurrentPage={changeCurrentPage}
+        currentPage={page}
       />
-      <Posts posts={list} />
-      {list?.length < 10 ? (
-        <SC.Button>1</SC.Button>
-      ) : (
-        <Pages
-          changeCurrentPage={changeCurrentPage}
-          currentPage={params.page}
-        />
-      )}
     </Container>
   );
 };
