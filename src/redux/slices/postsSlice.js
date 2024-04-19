@@ -5,13 +5,14 @@ const initialState = {
   posts: {
     list: null,
     loading: false,
+    pages: null,
   },
   postForView: {
-    post: null,
+    postForView: null,
     loading: false,
   },
   freshPosts: {
-    posts: null,
+    freshPost: null,
     loading: false,
   },
 };
@@ -23,10 +24,10 @@ export const getPostById = createAsyncThunk(
   }
 );
 
-export const getPosts = createAsyncThunk(
-  "posts/fetchPosts",
+export const getPostsByParameters = createAsyncThunk(
+  "posts/fetchPostsByParameters",
   async (args) => {
-    return await postsAPI.fetchPosts(args);
+    return await postsAPI.fetchPostsByParameters(args);
   }
 );
 
@@ -48,6 +49,12 @@ export const postsSlice = createSlice({
         }
         return post;
       });
+      state.freshPosts.freshPost = state.freshPosts.freshPost.map((post) => {
+        if (post.id === action.payload.id) {
+          return action.payload;
+        }
+        return post;
+      });
     },
     addPost: (state, action) => {
       const newPost = { ...action.payload };
@@ -57,10 +64,15 @@ export const postsSlice = createSlice({
       state.posts.list = state.posts.list
         ? [newPost, ...state.posts.list]
         : [newPost];
+
+      state.posts.pages = Math.ceil(state.posts.list.length / 10);
+      state.freshPosts.freshPost = state.freshPosts.freshPost
+        ? [newPost, ...state.freshPosts.freshPost]
+        : [newPost];
     },
     showPost: (state, action) => {
       state.postForView = {
-        post: action.payload,
+        postForView: action.payload,
         loading: false,
       };
     },
@@ -68,8 +80,11 @@ export const postsSlice = createSlice({
       state.posts.list = state.posts.list.filter(
         (post) => post.id !== action.payload.id
       );
+      state.freshPosts.freshPost = state.freshPosts.freshPost.filter(
+        (post) => post.id !== action.payload.id
+      );
       state.postForView = {
-        post: null,
+        postForView: null,
         loading: false,
       };
     },
@@ -77,38 +92,38 @@ export const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getPostById.pending, (state, action) => {
       state.postForView = {
-        post: null,
+        postForView: null,
         loading: true,
       };
     });
     builder.addCase(getPostById.fulfilled, (state, action) => {
       state.postForView = {
-        post: action.payload,
-        loading: false,
-      };
-    });
-    builder.addCase(getPosts.pending, (state, action) => {
-      state.posts = {
-        list: null,
-        loading: true,
-      };
-    });
-    builder.addCase(getPosts.fulfilled, (state, action) => {
-      state.posts = {
-        list: action.payload,
+        postForView: action.payload,
         loading: false,
       };
     });
     builder.addCase(getFreshPosts.pending, (state, action) => {
       state.freshPosts = {
-        posts: null,
+        freshPost: null,
         loading: true,
       };
     });
     builder.addCase(getFreshPosts.fulfilled, (state, action) => {
       state.freshPosts = {
-        posts: action.payload,
+        freshPost: action.payload,
         loading: false,
+      };
+    });
+    builder.addCase(getPostsByParameters.pending, (state, action) => {
+      state.posts = {
+        loading: true,
+      };
+    });
+    builder.addCase(getPostsByParameters.fulfilled, (state, action) => {
+      state.posts = {
+        list: action.payload,
+        loading: false,
+        pages: Math.ceil(action.payload.length / 10),
       };
     });
   },

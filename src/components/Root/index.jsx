@@ -4,7 +4,7 @@ import * as SC from "./styles";
 import { Container } from "../ui/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/slices/authSlice";
-import { BlackButton } from "../ui/BlackButton";
+import { Button } from "../ui/Button";
 
 export const Root = () => {
   const { user } = useSelector((state) => state.auth);
@@ -26,7 +26,7 @@ export const Root = () => {
           )}
           {!user && <SC.MenuItem to={"/auth"}>Авторизация</SC.MenuItem>}
           {!user && <SC.MenuItem to={"/registration"}>Регистрация</SC.MenuItem>}
-          {user && <BlackButton onClick={onClickExitBtn}>Выход</BlackButton>}
+          {user && <Button $black onClick={onClickExitBtn}>Выход</Button>}
         </SC.Menu>
       </Container>
       <Outlet />

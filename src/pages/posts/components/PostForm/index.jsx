@@ -5,7 +5,7 @@ import { Form } from "../../../../components/ui/Form";
 import { Field } from "../../../../components/ui/Field";
 import { Input } from "../../../../components/ui/Input";
 import * as SC from "./styles";
-import { PinkButton } from "../../../../components/ui/PinkButton";
+import { Button } from "../../../../components/ui/Button";
 
 const DEFAULT_VALUES = { title: "", body: "" };
 
@@ -46,9 +46,9 @@ export const PostForm = ({ title, onSubmitForm, defaultValues }) => {
             onChange={(e) => onChange(e.target.name, e.target.value)}
           />
         </Field>
-        <PinkButton type="submit" disabled={disabled}>
+        <Button type="submit" disabled={disabled}>
           Сохранить
-        </PinkButton>
+        </Button>
       </Form>
     </Container>
   );

@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Loader = styled.div`
   position: absolute;
-  top: 300px;
-  left: 600px;
+  top: 50%;
+  left: 50%;
   border: 16px solid #f3f3f3;
   border-top: 16px solid #dc143c;
   border-radius: 50%;

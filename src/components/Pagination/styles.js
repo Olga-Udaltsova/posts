@@ -4,6 +4,7 @@ export const Pages = styled.div`
   display: flex;
   gap: 15px;
   justify-content: center;
+  margin-bottom: 30px;
 `;
 
 export const Button = styled.button`

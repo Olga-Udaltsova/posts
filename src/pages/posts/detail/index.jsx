@@ -4,8 +4,7 @@ import { Typo } from "../../../components/ui/Typo";
 import { Container } from "../../../components/ui/Container";
 import * as SC from "./styles";
 import { Link } from "../../../components/ui/Link";
-import { BlackButton } from "../../../components/ui/BlackButton";
-import { PinkButton } from "../../../components/ui/PinkButton";
+import { Button } from "../../../components/ui/Button";
 import { Modal } from "../../../components/ui/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -19,7 +18,7 @@ export const DetailPostPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { list } = useSelector((state) => state.posts.posts);
-  const postForView = useSelector((state) => state.posts.postForView);
+  const post = useSelector((state) => state.posts.postForView);
   const { user } = useSelector((state) => state.auth);
   const [postForDelete, setPostForDelete] = useState(null);
   const navigate = useNavigate();
@@ -44,7 +43,7 @@ export const DetailPostPage = () => {
     }
   }, [id, list, dispatch]);
 
-  if (postForView.loading) {
+  if (post.loading) {
     return (
       <Container>
         <Loader />
@@ -52,13 +51,13 @@ export const DetailPostPage = () => {
     );
   }
 
-  if (!postForView.post || !postForView.post.hasOwnProperty("id")) {
+  if (!post.postForView || !post.postForView.hasOwnProperty("id")) {
     return <>Пост не найден</>;
   }
-  const { post } = postForView;
+  const { postForView } = post;
 
   const image =
-    post.image ||
+    postForView.image ||
     "https://i.pinimg.com/originals/e0/18/0f/e0180f82c6c5273050a86a282a597872.jpg";
 
   return (
@@ -71,27 +70,27 @@ export const DetailPostPage = () => {
               {postForDelete.id}?
             </SC.ModalText>
             <SC.ModalContent>
-              <PinkButton onClick={onDeletePost}>Да</PinkButton>
-              <BlackButton onClick={() => setPostForDelete(null)}>
+              <Button onClick={onDeletePost}>Да</Button>
+              <Button $black onClick={() => setPostForDelete(null)}>
                 Нет
-              </BlackButton>
+              </Button>
             </SC.ModalContent>
           </Modal>
         </SC.ModalWrapper>
       )}
-      <Typo>{post.title}</Typo>
-      <SC.Image src={image} alt={post.title} />
-      <SC.Text>{post.body}</SC.Text>
+      <Typo>{postForView.title}</Typo>
+      <SC.Image src={image} alt={postForView.title} />
+      <SC.Text>{postForView.body}</SC.Text>
       <div style={{ clear: "both" }} />
       <SC.LinkWrapper>
         <Link to="/posts">Обратно к публикациям</Link>
         {showEditAndDeleteBtn && (
-          <Link to={`/posts/${post.id}/edit`}>Редактировать</Link>
+          <Link to={`/posts/${postForView.id}/edit`}>Редактировать</Link>
         )}
         {showEditAndDeleteBtn && (
-          <BlackButton onClick={() => setPostForDelete(post)}>
+          <Button $black onClick={() => setPostForDelete(postForView)}>
             Удалить
-          </BlackButton>
+          </Button>
         )}
       </SC.LinkWrapper>
     </Container>
