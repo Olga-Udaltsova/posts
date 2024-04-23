@@ -5,7 +5,6 @@ const initialState = {
   posts: {
     list: null,
     loading: false,
-    pages: null,
   },
   postForView: {
     postForView: null,
@@ -15,7 +14,15 @@ const initialState = {
     freshPost: null,
     loading: false,
   },
+  pages: {
+    quantity: null,
+    loading: false,
+  },
 };
+
+export const getPosts = createAsyncThunk("posts/fetchPosts", async () => {
+  return await postsAPI.fetchPosts();
+});
 
 export const getPostById = createAsyncThunk(
   "posts/fetchById",
@@ -65,7 +72,6 @@ export const postsSlice = createSlice({
         ? [newPost, ...state.posts.list]
         : [newPost];
 
-      state.posts.pages = Math.ceil(state.posts.list.length / 10);
       state.freshPosts.freshPost = state.freshPosts.freshPost
         ? [newPost, ...state.freshPosts.freshPost]
         : [newPost];
@@ -92,7 +98,6 @@ export const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getPostById.pending, (state, action) => {
       state.postForView = {
-        postForView: null,
         loading: true,
       };
     });
@@ -102,9 +107,19 @@ export const postsSlice = createSlice({
         loading: false,
       };
     });
+    builder.addCase(getPosts.pending, (state, action) => {
+      state.pages = {
+        loading: true,
+      };
+    });
+    builder.addCase(getPosts.fulfilled, (state, action) => {
+      state.pages = {
+        quantity: Math.ceil(action.payload.length / 10),
+        loading: false,
+      };
+    });
     builder.addCase(getFreshPosts.pending, (state, action) => {
       state.freshPosts = {
-        freshPost: null,
         loading: true,
       };
     });
@@ -123,7 +138,6 @@ export const postsSlice = createSlice({
       state.posts = {
         list: action.payload,
         loading: false,
-        pages: Math.ceil(action.payload.length / 10),
       };
     });
   },
