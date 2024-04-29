@@ -14,7 +14,7 @@ export const postsAPI = {
   fetchPostsByParameters(args) {
     try {
       return fetch(
-        `https://jsonplaceholder.typicode.com/posts?_sort=id&_page=${args.page}&_order=${args.order}`
+        `https://jsonplaceholder.typicode.com/posts?_sort=id&_order=${args.order}&_page=${args.page}`
       )
         .then((response) => response.json())
         .then((posts) => posts);

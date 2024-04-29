@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import * as SC from "./styles.js";
 import { useSelector } from "react-redux";
+import * as SC from "./styles.js";
 
 export const Pages = ({ changeCurrentPage, currentPage }) => {
   const { numberOfPages } = useSelector((state) => state.posts.pages);
   const [pagination, setPagination] = useState([]);
 
   useEffect(() => {
-    const pagination = [];
+    const temp = [];
     for (let i = 0; i < numberOfPages; i++) {
-      pagination.push(i + 1);
+      temp.push(i + 1);
     }
-    setPagination(pagination);
+    setPagination(temp);
   }, [numberOfPages]);
 
   return (
