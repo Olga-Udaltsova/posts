@@ -3,20 +3,20 @@ import * as SC from "./styles.js";
 import { useSelector } from "react-redux";
 
 export const Pages = ({ changeCurrentPage, currentPage }) => {
-  const { quantity } = useSelector((state) => state.posts.pages);
-  const [numberOfPages, setNumberOfPages] = useState([]);
+  const { numberOfPages } = useSelector((state) => state.posts.pages);
+  const [pagination, setPagination] = useState([]);
 
   useEffect(() => {
     const pagination = [];
-    for (let i = 0; i < quantity; i++) {
+    for (let i = 0; i < numberOfPages; i++) {
       pagination.push(i + 1);
     }
-    setNumberOfPages(pagination);
-  }, [quantity]);
+    setPagination(pagination);
+  }, [numberOfPages]);
 
   return (
     <SC.Pages>
-      {numberOfPages.map((page) => (
+      {pagination.map((page) => (
         <SC.Button
           key={page}
           onClick={() => changeCurrentPage(page)}

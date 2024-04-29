@@ -1,7 +1,9 @@
 export const postsAPI = {
-  fetchPosts() {
+  fetchPosts(args) {
     try {
-      return fetch("https://jsonplaceholder.typicode.com/posts?_sort=id&_order=desc")
+      return fetch(
+        `https://jsonplaceholder.typicode.com/posts?_sort=id&_order=${args.order}&q=${args.search}`
+      )
         .then((response) => response.json())
         .then((posts) => posts);
     } catch (ex) {
@@ -10,13 +12,9 @@ export const postsAPI = {
   },
 
   fetchPostsByParameters(args) {
-    const params = new URLSearchParams();
-    params.append('_page', args.page)
-    params.append("_order", args.order);
-    params.append("q", args.search);
     try {
       return fetch(
-        `https://jsonplaceholder.typicode.com/posts?_sort=id&` + params
+        `https://jsonplaceholder.typicode.com/posts?_sort=id&_page=${args.page}&_order=${args.order}`
       )
         .then((response) => response.json())
         .then((posts) => posts);
