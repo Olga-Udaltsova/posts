@@ -8,6 +8,7 @@ import { Loader } from "../../components/ui/Loading";
 import { Pages } from "../../components/Pagination";
 import { Search } from "../../components/Posts/components/Search";
 import { Sort } from "../../components/Posts/components/Sort";
+import useDebounce from "../../hooks/useDebounce";
 import * as SC from "./styles";
 
 export const PostsPage = () => {
@@ -18,6 +19,7 @@ export const PostsPage = () => {
   });
   const { list, loading } = useSelector((state) => state.posts.posts);
   const dispatch = useDispatch();
+  const { debouncedValue } = useDebounce(params.search, 500);
 
   const changeCurrentPage = (page) => {
     dispatch(getPostsByParameters({ ...params, page }));
@@ -29,10 +31,11 @@ export const PostsPage = () => {
     setParams({ ...params, order: value });
   };
 
-  const onSearch = () => {
-    setParams({ ...params, page: 1 });
-    dispatch(getPosts(params));
-  };
+  useEffect(() => {
+    if (debouncedValue.length >= 0) {
+      dispatch(getPosts({ ...params, page: 1, search: debouncedValue }));
+    }
+  }, [debouncedValue]);
 
   useEffect(() => {
     if (!list) {
@@ -53,7 +56,7 @@ export const PostsPage = () => {
       <Typo>Публикации</Typo>
       <SC.Filters>
         <Sort changeSort={changeSort} params={params} />
-        <Search params={params} setParams={setParams} onSearch={onSearch} />
+        <Search params={params} setParams={setParams} />
       </SC.Filters>
       <Posts posts={list} />
       <Pages changeCurrentPage={changeCurrentPage} currentPage={params.page} />

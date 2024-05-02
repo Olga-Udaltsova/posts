@@ -1,6 +1,6 @@
 import * as SC from "./styles";
 
-export const Search = ({ params, setParams, onSearch }) => (
+export const Search = ({ params, setParams }) => (
   <SC.Filter>
     <p>Введите текст для поиска:</p>
     <input
@@ -11,6 +11,5 @@ export const Search = ({ params, setParams, onSearch }) => (
       }
       placeholder="Поиск"
     />
-    <button onClick={onSearch}>Поиск</button>
   </SC.Filter>
 );
